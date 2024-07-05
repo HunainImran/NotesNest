@@ -50,5 +50,36 @@ app.post("/signup", async (req,res) => {
 
 });
 
+//Login API
+app.post("/login", async (req, res) => {
+    const {email, password} = req.body;
+    if(!email){
+        return res.status(400).json({error:true, message:"Email is required"});
+    }
+    if(!password){
+        return res.status(400).json({error:true, message:"Password is required"});
+    }
+
+    const existingUser = await user.findOne({email:email});
+    if(!existingUser){
+        return res.status(400).json({error:true, message:"User not found"});
+    }
+    if(existingUser.email == email && existingUser.password == password){
+        const userData = {user: existingUser};
+        const accessToken = jwt.sign(userData, process.env.TOKEN, {
+            expiresIn: "3600m",
+        });
+        return res.json({
+            error: false,
+            message : "Successfully logged in!",
+            email,
+            accessToken,
+        });
+    }
+    return res.status(400).json({
+        error: true, message:"Invalid credentials",
+    });
+});
+
 app.listen(8000);
 module.exports = app;
