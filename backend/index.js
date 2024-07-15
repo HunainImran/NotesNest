@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 mongoose.connect(config.connection)
 
 const user = require("./models/user-schema");
+const note = require("./models/note-schema");
 
 const express = require("express");
 const cors = require("cors");
@@ -65,7 +66,10 @@ app.post("/login", async (req, res) => {
         return res.status(400).json({error:true, message:"User not found"});
     }
     if(existingUser.email == email && existingUser.password == password){
-        const userData = {user: existingUser};
+        const userData = {
+            _id: existingUser._id,
+            email: existingUser.email
+        };
         const accessToken = jwt.sign(userData, process.env.TOKEN, {
             expiresIn: "3600m",
         });
@@ -79,6 +83,32 @@ app.post("/login", async (req, res) => {
     return res.status(400).json({
         error: true, message:"Invalid credentials",
     });
+});
+
+//Add note api
+app.post("/add-note", authenticateToken, async (req,res) => {
+    const {title, content, tags} = req.body;
+    const user = req.user;
+    if(!title){
+        return res.status(400).json({error:true, message: "Title is required"});
+    }
+    if(!content){
+        return res.status(400).json({error:true, message: "Content is required"});
+    }
+    try{
+        const newNote = new note({
+            title, content, tags: tags || [], userId: user._id,
+        });
+        await newNote.save()
+        return res.json({error: false, newNote, message: "Note added successfully",});
+    }
+    catch (error){
+        console.error("Error adding note:", error);
+        return res.status(500).json({
+            error:true,
+            message: "Internal server error",
+        });
+    }
 });
 
 app.listen(8000);
