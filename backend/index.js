@@ -111,5 +111,44 @@ app.post("/add-note", authenticateToken, async (req,res) => {
     }
 });
 
+
+//Edit Note Api
+app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
+    const noteId = req.params.noteId;
+    const { title, content, tags, isPinned } = req.body;
+    const user = req.user; // Note the correction here
+
+    console.log("Received request to edit note with ID:", noteId);
+    console.log("Request body:", req.body);
+    console.log("Authenticated user:", user);
+
+    if (!title && !content && !tags) {
+        return res.status(400).json({ error: true, message: "No changes provided" });
+    }
+
+    try {
+        const existingNote = await note.findOne({ _id: noteId, userId: user._id });
+        if (!existingNote) {
+            console.log("Note not found for user ID:", user._id);
+            return res.status(404).json({ error: true, message: "Note not found" });
+        }
+
+        if (title) existingNote.title = title;
+        if (content) existingNote.content = content;
+        if (tags) existingNote.tags = tags;
+        if (typeof isPinned !== 'undefined') existingNote.isPinned = isPinned; // Use typeof to check for boolean
+
+        console.log("Updated note:", existingNote);
+
+        await existingNote.save();
+        console.log("Note saved successfully");
+
+        return res.json({ error: false, existingNote, message: "Note updated successfully" });
+    } catch (err) {
+        console.error("Error updating note:", err);
+        return res.status(500).json({ error: true, message: "Internal server error" });
+    }
+});
+
 app.listen(8000);
 module.exports = app;
