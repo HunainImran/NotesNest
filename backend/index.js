@@ -162,5 +162,22 @@ app.get("/get-all-notes/", authenticateToken, async (req,res) =>{
     }
 });
 
+//Delete Note Api
+app.delete("/delete-note/:noteId", authenticateToken, async (req,res) => {
+    const noteId = req.params.noteId;
+    const user = req.user;
+    try{
+        const existingNote = await note.findOne({ _id: noteId, userId: user._id });
+        if(!existingNote){
+            return res.status(404).json({error:true, message:"Note not found"});
+        }
+        await note.deleteOne({ _id: noteId, userId: user._id });
+        return res.status(200).json({error:false, message:"Note deleted successfully"});
+    }
+    catch(err){
+        return res.status(500).json({error:true,message: "Internal server error"});
+    }
+});
+
 app.listen(8000);
 module.exports = app;
