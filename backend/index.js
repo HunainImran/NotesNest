@@ -179,5 +179,16 @@ app.delete("/delete-note/:noteId", authenticateToken, async (req,res) => {
     }
 });
 
+
+//Get User Api
+app.get("/get-user", authenticateToken, async (req,res) => {
+    const currentuser = req.user;
+    const isUser = await user.findOne({_id: currentuser._id});
+    if(!isUser){
+        return res.status(401).json({error:true, message:"No user found"});
+    }
+    return res.status(200).json({firstName: isUser.firstName, email: isUser.email});
+});
+
 app.listen(8000);
 module.exports = app;
