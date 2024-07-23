@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
 import human3 from '../assets/human-3.svg';
 import human2 from '../assets/human-2.svg';
+import customTheme from '../utils/theme';
 
 function Copyright(props: any) {
   return (
@@ -29,73 +30,6 @@ function Copyright(props: any) {
   );
 }
 
-// Ensure the Poppins font is loaded
-
-// Custom theme with Poppins font
-const customTheme = createTheme({
-  typography: {
-    fontFamily: 'Poppins, sans-serif',
-    h1: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    h2: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    h3: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    h4: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    h5: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    h6: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    body1: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    body2: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    subtitle1: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    subtitle2: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    caption: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-    overline: {
-      fontFamily: 'Poppins, sans-serif',
-    },
-  },
-  components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          fontFamily: 'Poppins, sans-serif',
-        },
-      },
-    },
-    MuiFormControlLabel: {
-      styleOverrides: {
-        root: {
-          fontFamily: 'Poppins, sans-serif',
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          fontFamily: 'Poppins, sans-serif',
-        },
-      },
-    },
-  },
-});
 
 export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -217,7 +151,7 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#12296C' }}
+                sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
               </Button>
