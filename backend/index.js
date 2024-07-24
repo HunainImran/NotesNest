@@ -187,7 +187,7 @@ app.get("/get-user", authenticateToken, async (req,res) => {
     if(!isUser){
         return res.status(401).json({error:true, message:"No user found"});
     }
-    return res.status(200).json({firstName: isUser.firstName, email: isUser.email});
+    return res.status(200).json({firstName: isUser.firstName, lastName: isUser.lastName, email: isUser.email});
 });
 
 app.listen(8000);
