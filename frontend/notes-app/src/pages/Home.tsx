@@ -7,6 +7,17 @@ import NotePopup from '../components/NotePopup';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 
+
+interface Note {
+  _id: string;
+  title: string;
+  content: string;
+  createdOn: string;
+  tags: string[];
+  isPinned: boolean;
+}
+
+
 function Home() {
   // Define the type for userInfo
 interface UserInfo {
@@ -15,6 +26,7 @@ interface UserInfo {
   email?: string;
   // Add other properties as needed
 }
+  const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [openAddEditModal, setOpenAddEditModal] = useState({ isShown: false, type: "add", data: null });
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null); 
   const navigate = useNavigate();
@@ -36,8 +48,20 @@ interface UserInfo {
     }
   };
 
+  const getAllNotes = async () => {
+    try{
+      const response = await axiosInstance.get("/get-all-notes/");
+      if(response.data && response.data.notes){
+        setAllNotes(response.data.notes);
+      }
+    }
+    catch(err: any){
+        console.log(err);
+    }
+  }
   useEffect(() => {
     getUserInfo();
+    getAllNotes();
   }, []); 
 
 
@@ -46,46 +70,20 @@ interface UserInfo {
       <Navbar userInfo={userInfo} />
       <div className="container mx-auto px-6">
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8'>
-          <NoteCard 
-            title="Complete the project"
-            date="2nd August 2024"
-            content="Complete the project"
-            tags="#workdue"
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard 
-            title="Complete the project"
-            date="2nd August 2024"
-            content="Complete the project"
-            tags="#workdue"
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard 
-            title="Complete the project"
-            date="2nd August 2024"
-            content="Complete the project"
-            tags="#workdue"
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard 
-            title="Complete the project"
-            date="2nd August 2024"
-            content="Complete the project"
-            tags="#workdue"
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
+          {allNotes.map((item,index) => (
+              <NoteCard 
+              key={item._id}
+              title={item.title}
+              date={item.createdOn}
+              content={item.content}
+              tags={item.tags}
+              isPinned={item.isPinned}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              onPinNote={() => {}}
+            />
+          ))}
+          
         </div>
       </div>
 
