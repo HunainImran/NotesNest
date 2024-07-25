@@ -68,6 +68,23 @@ interface UserInfo {
         console.log(err);
     }
   }
+
+  const deleteNotes = async (note: Note) => {
+    const noteId = note._id;
+    try{
+      const response = await axiosInstance.delete('/delete-note/' + noteId);
+      console.log(response);
+      if(response.data && response.data.message){
+        getAllNotes();
+      }
+    }
+    catch(err: any){
+      if(err.response && err.response.data && err.response.data.message){
+          console.log(err);
+      }
+    }
+  }
+
   useEffect(() => {
     getUserInfo();
     getAllNotes();
@@ -88,7 +105,7 @@ interface UserInfo {
               tags={item.tags}
               isPinned={item.isPinned}
               onEdit={() => handleEdit(item)}
-              onDelete={() => {}}
+              onDelete={() => deleteNotes(item)}
               onPinNote={() => {}}
             />
           ))}
