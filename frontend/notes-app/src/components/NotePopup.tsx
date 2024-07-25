@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import TagsInput from './TagsInput';
 import { MdClose } from 'react-icons/md';
+import axiosInstance from '../utils/axiosInstance';
 
 
 interface NotePopupProps {
   noteData?: any; 
   type: string;
   onClose: () => void;
+  getAllNotes: () => void;
 }
 
-const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose }) => {
+const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose, getAllNotes }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -17,6 +19,21 @@ const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose }) => {
 
   // Add note API
   const addNewNote = async () => {
+    try{
+      const response = await axiosInstance.post('/add-note', {
+        title, content, tags
+      });
+      console.log(response);
+      if(response.data && response.data.newNote){
+        getAllNotes();
+        onClose();
+      }
+    }
+    catch(err: any){
+      if(err.response && err.response.data && err.response.data.message){
+          console.log(err);
+      }
+    }
    
   };
 

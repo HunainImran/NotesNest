@@ -104,7 +104,7 @@ interface UserInfo {
       >
         <NotePopup noteData={openAddEditModal.data} type={openAddEditModal.type} onClose={() => {
           setOpenAddEditModal({ isShown: false, type: "add", data: null })
-        }} />
+        }} getAllNotes={getAllNotes}/>
       </Modal>
     </>
   );
