@@ -16,6 +16,11 @@ interface Note {
   tags: string[];
   isPinned: boolean;
 }
+interface ModalState {
+  isShown: boolean;
+  type: "add" | "edit";
+  data: Note | null; // Adjusted to accept Note or null
+}
 
 
 function Home() {
@@ -27,9 +32,13 @@ interface UserInfo {
   // Add other properties as needed
 }
   const [allNotes, setAllNotes] = useState<Note[]>([]);
-  const [openAddEditModal, setOpenAddEditModal] = useState({ isShown: false, type: "add", data: null });
+  const [openAddEditModal, setOpenAddEditModal] = useState<ModalState>({ isShown: false, type: "add", data: null });
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null); 
   const navigate = useNavigate();
+
+  const handleEdit = (noteDetails: Note) => {
+      setOpenAddEditModal({isShown:true, data: noteDetails, type: "edit"})
+  }
 
   const getUserInfo = async () => {
     try {
@@ -78,7 +87,7 @@ interface UserInfo {
               content={item.content}
               tags={item.tags}
               isPinned={item.isPinned}
-              onEdit={() => {}}
+              onEdit={() => handleEdit(item)}
               onDelete={() => {}}
               onPinNote={() => {}}
             />
