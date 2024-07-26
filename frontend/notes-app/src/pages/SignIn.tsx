@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,6 +13,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
+import human3 from '../assets/human-3.svg';
+import human2 from '../assets/human-2.svg';
+import customTheme from '../utils/theme';
 
 function Copyright(props: any) {
   return (
@@ -28,12 +30,6 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const customTheme = createTheme(deepmerge(createTheme(), {
-  typography: {
-    fontFamily: 'Poppins, sans-serif',
-  },
-}));
 
 export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,15 +51,61 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              'url("/static/images/templates/templates-images/sign-in-side-bg.png")',
-
+            position: 'relative',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'left',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
           }}
-        />
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              textAlign: 'center',
+              color: 'black',
+              zIndex: 1,
+            }}
+          >
+            <Typography component="h1" variant="h4" sx={{ mb: 20 }}>
+              Simplify your life, one note at a time
+            </Typography>
+          </Box>
+          <Box
+            component="img"
+            src={human3}
+            alt="human looking left"
+            sx={{
+              position: 'absolute',
+              bottom: '10%',
+              left: '5%',
+              height: '40%',
+            }}
+          />
+          <Box
+            component="img"
+            src={human2}
+            alt="human looking right"
+            sx={{
+              position: 'absolute',
+              bottom: '10%',
+              right: '5%',
+              height: '40%',
+            }}
+          />
+        </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
