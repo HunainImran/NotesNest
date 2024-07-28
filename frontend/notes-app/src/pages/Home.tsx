@@ -106,6 +106,24 @@ interface UserInfo {
     getAllNotes();
   }
 
+  const updateIsPinned = async (noteData : Note) => {
+    const noteId = noteData._id;
+    try{
+      const response = await axiosInstance.put('/update-note-pinned/' + noteId, {
+        isPinned : !noteData.isPinned,
+      });
+      console.log(response);
+      if(response.data && response.data.existingNote){
+        getAllNotes();
+      }
+    }
+    catch(err: any){
+      if(err.response && err.response.data && err.response.data.message){
+          console.log(err);
+      }
+    }
+  }
+
   useEffect(() => {
     getUserInfo();
     getAllNotes();
@@ -127,7 +145,7 @@ interface UserInfo {
               isPinned={item.isPinned}
               onEdit={() => handleEdit(item)}
               onDelete={() => deleteNotes(item)}
-              onPinNote={() => {}}
+              onPinNote={() => {updateIsPinned(item)}}
             />
           ))}
           
