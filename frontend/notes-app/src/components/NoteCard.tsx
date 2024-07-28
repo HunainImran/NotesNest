@@ -22,7 +22,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ title, date, content, tags, isPinne
           <h6 className="text-sm font-medium">{title}</h6>
           <span className='text-xs text-slate-500'>{moment(date).format('Do MMM YYYY')}</span>
         </div>
-        <MdOutlinePushPin className={`text-xl text-slate-300 cursor-pointer hover:text-primary ${isPinned ? 'text-primary' : 'text-slate-300'}`} onClick={onPinNote} />
+        <MdOutlinePushPin className={`text-xl cursor-pointer hover:text-primary ${isPinned ? 'text-primary' : 'text-slate-300'}`} onClick={onPinNote} />
       </div>
 
       <p className="text-slate-600 mt-2">{content?.slice(0, 60)}</p>
