@@ -13,9 +13,11 @@ interface UserInfo {
 
 interface NavbarProps {
   userInfo: UserInfo | null;
+  onSearchNote: (query: string) => void;
+  handleClearSearch: () => void; 
 }
 
-function Navbar({userInfo} : NavbarProps) {
+function Navbar({userInfo, onSearchNote, handleClearSearch} : NavbarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -25,11 +27,14 @@ function Navbar({userInfo} : NavbarProps) {
   };
 
   const handleSearch = () =>{
-
+    if (searchQuery){
+      onSearchNote(searchQuery);
+    }
   };
 
   const onClearSearch = () =>{
     setSearchQuery("");
+    handleClearSearch();
   }
 
   return (

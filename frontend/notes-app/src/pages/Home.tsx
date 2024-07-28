@@ -34,6 +34,7 @@ interface UserInfo {
   const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [openAddEditModal, setOpenAddEditModal] = useState<ModalState>({ isShown: false, type: "add", data: null });
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null); 
+  const [isSearch, setIsSearch] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
   const handleEdit = (noteDetails: Note) => {
@@ -85,6 +86,26 @@ interface UserInfo {
     }
   }
 
+  const onSearchNote = async (query: string) => {
+    try{
+      const response = await axiosInstance.get("/search-notes", {
+        params: {query},
+      });
+
+      if (response.data && response.data.notes){
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
+      }
+    }
+    catch(err:any){
+        console.log(err);
+    }
+  }
+  const handleClearSearch = () => {
+    setIsSearch(false);
+    getAllNotes();
+  }
+
   useEffect(() => {
     getUserInfo();
     getAllNotes();
@@ -93,7 +114,7 @@ interface UserInfo {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar userInfo={userInfo} onSearchNote={onSearchNote} handleClearSearch={handleClearSearch}/>
       <div className="container mx-auto px-6">
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8'>
           {allNotes.map((item,index) => (

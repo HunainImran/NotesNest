@@ -193,7 +193,7 @@ app.get("/get-user", authenticateToken, async (req,res) => {
 // Search Note Api
 app.get('/search-notes', authenticateToken, async (req, res) => {
     const user = req.user;
-    const searchQuery = req.query.q;
+    const searchQuery = req.query.query;
 
     if (!searchQuery) {
         return res.status(400).json({ error: true, message: "Search query is required" });
