@@ -223,7 +223,7 @@ app.get('/search-notes', authenticateToken, async (req, res) => {
 app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
     const noteId = req.params.noteId;
     const {  isPinned } = req.body;
-    const user = req.user; // Note the correction here
+    const user = req.user; 
 
 
     try {
@@ -233,7 +233,7 @@ app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
             return res.status(404).json({ error: true, message: "Note not found" });
         }
 
-        existingNote.isPinned = isPinned; // Use typeof to check for boolean
+        existingNote.isPinned = isPinned; 
 
         console.log("Updated note:", existingNote);
 
