@@ -2,7 +2,6 @@ import React from 'react'
 import { MdOutlinePushPin, MdCreate, MdDelete } from "react-icons/md";
 import moment from 'moment';
 
-// Define the types for the props
 interface NoteCardProps {
   title: string;
   date: string;

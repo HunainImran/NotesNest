@@ -1,13 +1,7 @@
 import React from 'react';
 import { getInitials } from "../utils/helper"; 
+import { UserInfo } from '../utils/constants';
 
-// Define the type for userInfo
-interface UserInfo {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  // Add other properties as needed
-}
 
 interface ProfileInfoProps {
   onLogout: () => void;

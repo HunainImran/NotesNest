@@ -2,14 +2,8 @@ import React, {useState} from 'react';
 import ProfileInfo from './ProfileInfo';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import { UserInfo } from '../utils/constants';
 
-// Define the type for userInfo
-interface UserInfo {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  // Add other properties as needed
-}
 
 interface NavbarProps {
   userInfo: UserInfo | null;

@@ -6,31 +6,18 @@ import Modal from 'react-modal';
 import NotePopup from '../components/NotePopup';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
+import {Note, UserInfo} from '../utils/constants';
 
 
-interface Note {
-  _id: string;
-  title: string;
-  content: string;
-  createdOn: string;
-  tags: string[];
-  isPinned: boolean;
-}
 interface ModalState {
   isShown: boolean;
   type: "add" | "edit";
-  data: Note | null; // Adjusted to accept Note or null
+  data: Note | null; 
 }
 
 
 function Home() {
-  // Define the type for userInfo
-interface UserInfo {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  // Add other properties as needed
-}
+
   const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [openAddEditModal, setOpenAddEditModal] = useState<ModalState>({ isShown: false, type: "add", data: null });
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null); 
