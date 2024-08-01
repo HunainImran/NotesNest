@@ -33,15 +33,12 @@ function Home() {
       const response = await axiosInstance.get("/get-user");
       if (response.data) {
         setUserInfo(response.data);
-        console.log("USER INFO STATE : ", userInfo);
       }
     } catch (error: any) {
       if (error.response?.status === 401) {
         localStorage.clear();
         navigate('/login');
-      } else {
-        console.error("Error fetching user info:", error);
-      }
+      } 
     }
   };
 
@@ -53,7 +50,7 @@ function Home() {
       }
     }
     catch(err: any){
-        console.log(err);
+        //Will add a toast message
     }
   }
 
@@ -61,14 +58,13 @@ function Home() {
     const noteId = note._id;
     try{
       const response = await axiosInstance.delete('/delete-note/' + noteId);
-      console.log(response);
       if(response.data && response.data.message){
         getAllNotes();
       }
     }
     catch(err: any){
       if(err.response && err.response.data && err.response.data.message){
-          console.log(err);
+          //Will add a toast message
       }
     }
   }
@@ -85,7 +81,7 @@ function Home() {
       }
     }
     catch(err:any){
-        console.log(err);
+        //Will add a toast message
     }
   }
   const handleClearSearch = () => {
@@ -99,14 +95,13 @@ function Home() {
       const response = await axiosInstance.put('/update-note-pinned/' + noteId, {
         isPinned : !noteData.isPinned,
       });
-      console.log(response);
       if(response.data && response.data.existingNote){
         getAllNotes();
       }
     }
     catch(err: any){
       if(err.response && err.response.data && err.response.data.message){
-          console.log(err);
+          //Will add a toast message
       }
     }
   }
