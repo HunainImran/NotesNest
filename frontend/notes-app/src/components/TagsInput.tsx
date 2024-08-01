@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 import { MdAdd, MdClose } from 'react-icons/md';
 
-// Define the prop types
+
 interface TagsInputProps {
   tags: string[];
   setTags: (tags: string[]) => void;

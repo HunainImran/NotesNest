@@ -13,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
 import customTheme from '../utils/theme';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import axiosInstance from '../utils/axiosInstance';
+import { useEffect } from 'react';
 
 function Copyright(props: any) {
   return (
@@ -29,14 +32,31 @@ function Copyright(props: any) {
 
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try{
+      const response = await axiosInstance.post("/signup", {
+        email: data.get('email'),
+        password: data.get('password'),
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName')
+      });
+      if (response.data && response.data.accessToken){
+        localStorage.setItem("token", response.data.accessToken);
+        navigate('/dashboard');
+      }
+    }
+    catch(error: any){
+      if (error.response && error.response.data && error.response.data.message){
+        //Will add a toast message
+      }
+    }
   };
+
+
 
   return (
     <ThemeProvider theme={customTheme}>
