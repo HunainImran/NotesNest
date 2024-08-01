@@ -37,10 +37,6 @@ export default function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
     try{
       const response = await axiosInstance.post("/signup", {
         email: data.get('email'),
@@ -48,23 +44,18 @@ export default function SignUp() {
         firstName: data.get('firstName'),
         lastName: data.get('lastName')
       });
-      console.log(response);
       if (response.data && response.data.accessToken){
         localStorage.setItem("token", response.data.accessToken);
-        console.log("Stored Token:", localStorage.getItem("token"));
         navigate('/dashboard');
       }
     }
     catch(error: any){
       if (error.response && error.response.data && error.response.data.message){
-        console.log(error)
+        //Will add a toast message
       }
     }
   };
 
-  useEffect(() => {
-    console.log('Token:', localStorage.getItem("token"));
-}, []);
 
 
   return (
