@@ -23,7 +23,6 @@ const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose, getAllNo
       const response = await axiosInstance.post('/add-note', {
         title, content, tags
       });
-      console.log(response);
       if(response.data && response.data.newNote){
         getAllNotes();
         onClose();
@@ -31,7 +30,7 @@ const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose, getAllNo
     }
     catch(err: any){
       if(err.response && err.response.data && err.response.data.message){
-          console.log(err);
+          setError(err.response.data.message);
       }
     }
    
@@ -44,7 +43,6 @@ const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose, getAllNo
       const response = await axiosInstance.put('/edit-note/' + noteId, {
         title, content, tags
       });
-      console.log(response);
       if(response.data && response.data.existingNote){
         getAllNotes();
         onClose();
@@ -52,7 +50,7 @@ const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose, getAllNo
     }
     catch(err: any){
       if(err.response && err.response.data && err.response.data.message){
-          console.log(err);
+        setError(err.response.data.message);
       }
     }
   };
