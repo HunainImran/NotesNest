@@ -1,18 +1,29 @@
 import React from 'react';
 import { getInitials } from "../utils/helper"; 
 
-interface ProfileInfoProps {
-  onLogout: () => void;
+// Define the type for userInfo
+interface UserInfo {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  // Add other properties as needed
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ onLogout }) => {
+interface ProfileInfoProps {
+  onLogout: () => void;
+  userInfo: UserInfo | null;
+}
+
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ onLogout , userInfo}) => {
+  console.log(userInfo);
+  const initials = userInfo ? getInitials(userInfo.firstName + ' ' + userInfo.lastName) : 'NN';
   return (
     <div className='flex items-center gap-3'>
       <div className='w-12 h-12 flex items-center justify-center rounded-full text-primary font-medium bg-slate-100'>
-        {getInitials("John Williams")}
+        {initials}
       </div>
       <div>
-        <p className='text-sm text-primary font-medium'>John William</p>
+        <p className='text-sm text-primary font-medium'>{userInfo?.firstName + ' ' + userInfo?.lastName}</p>
         <button className='text-sm text-slate-700 underline' onClick={onLogout}>Logout</button>
       </div>
     </div>

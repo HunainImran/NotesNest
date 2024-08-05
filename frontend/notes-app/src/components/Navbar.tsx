@@ -3,11 +3,24 @@ import ProfileInfo from './ProfileInfo';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
-function Navbar() {
+// Define the type for userInfo
+interface UserInfo {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  // Add other properties as needed
+}
+
+interface NavbarProps {
+  userInfo: UserInfo | null;
+}
+
+function Navbar({userInfo} : NavbarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const onLogout = () => {
+    localStorage.clear();
     navigate("/login");
   };
 
@@ -25,7 +38,7 @@ function Navbar() {
         <SearchBar value={searchQuery} onChange={({target}) => {
           setSearchQuery(target.value)
         }} handleSearch={handleSearch} onClearSearch={onClearSearch}/>
-        <ProfileInfo onLogout={onLogout}/>
+        <ProfileInfo onLogout={onLogout} userInfo={userInfo}/>
     </div>
   )
 }

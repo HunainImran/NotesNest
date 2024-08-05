@@ -1,28 +1,60 @@
 import React, { useState } from 'react';
 import TagsInput from './TagsInput';
 import { MdClose } from 'react-icons/md';
+import axiosInstance from '../utils/axiosInstance';
 
 
 interface NotePopupProps {
   noteData?: any; 
   type: string;
   onClose: () => void;
+  getAllNotes: () => void;
 }
 
-const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
+const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose, getAllNotes }) => {
+  const [title, setTitle] = useState(noteData?.title || "");
+  const [content, setContent] = useState(noteData?.content || "");
+  const [tags, setTags] = useState<string[]>(noteData?.tags || []);
   const [error, setError] = useState("");
 
   // Add note API
   const addNewNote = async () => {
+    try{
+      const response = await axiosInstance.post('/add-note', {
+        title, content, tags
+      });
+      console.log(response);
+      if(response.data && response.data.newNote){
+        getAllNotes();
+        onClose();
+      }
+    }
+    catch(err: any){
+      if(err.response && err.response.data && err.response.data.message){
+          console.log(err);
+      }
+    }
    
   };
 
   // Edit note API
   const editNote = async () => {
-
+    const noteId = noteData._id;
+    try{
+      const response = await axiosInstance.put('/edit-note/' + noteId, {
+        title, content, tags
+      });
+      console.log(response);
+      if(response.data && response.data.existingNote){
+        getAllNotes();
+        onClose();
+      }
+    }
+    catch(err: any){
+      if(err.response && err.response.data && err.response.data.message){
+          console.log(err);
+      }
+    }
   };
 
   const handleAddNote = () => {
@@ -75,7 +107,7 @@ const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose }) => {
       </div>
       {error && <p className='text-red-500 text-xs pt-4'>{error}</p>}
       <button className='w-full text-sm bg-primary text-white rounded my-1 hover:bg-blue-500 font-medium mt-5 p-3' onClick={handleAddNote}>
-        ADD
+        {type === 'edit' ? 'UPDATE' : "ADD"}
       </button>
     </div>
   );
