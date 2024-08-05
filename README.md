@@ -24,7 +24,7 @@
 ## Environment Variables
 
 The following environment variables are required to run this project:
-- `CONNECTION`: MongoDB connection string for the main database
+- `connection`: MongoDB connection string for the main database
 - `TEST_CONNECTION`: MongoDB connection string for the test database
 - `TOKEN`: Secret key for JWT token generation
 
