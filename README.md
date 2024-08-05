@@ -1,8 +1,6 @@
 # hunain-mern-10shine
 
-10pearls project
-
-# Notes Application
+# NotesNest
 
 ## Tech Stack
 
@@ -27,8 +25,7 @@
 
 ## Environment Variables
 
-The following environment variables are required to run this project. Please email these secrets to usama.yousuf@10pearls.com:
-
+The following environment variables are required to run this project:
 - `CONNECTION`: MongoDB connection string for the main database
 - `TEST_CONNECTION`: MongoDB connection string for the test database
 - `TOKEN`: Secret key for JWT token generation
@@ -47,20 +44,35 @@ The following environment variables are required to run this project. Please ema
    ```
 3. Start the backend server:
    ```sh
+   nodemon
+   ```
+   ### OR
+   ```sh
+   node index.js
+   ```
+   ### OR
+   ```sh
    npm start
    ```
-
 ### Frontend
 
 1. Navigate to the frontend directory:
    ```sh
    cd frontend
    ```
-2. Install dependencies:
+2. Navigate to the notes-app directory:
+   ```sh
+   cd notes-app
+   ```
+3. Install dependencies:
    ```sh
    npm install
    ```
-3. Start the frontend development server:
+4. Start the frontend development server:
+   ```sh
+   npm run dev
+   ```
+   ### OR
    ```sh
    npm start
    ```
