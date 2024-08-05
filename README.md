@@ -1,5 +1,3 @@
-# hunain-mern-10shine
-
 # NotesNest
 
 ## Tech Stack
