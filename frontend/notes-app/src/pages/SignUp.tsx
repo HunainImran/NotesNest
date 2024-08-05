@@ -33,6 +33,10 @@ function Copyright(props: any) {
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const handleSignInClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); 
+    navigate('/login');
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -137,7 +141,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" onClick={handleSignInClick}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

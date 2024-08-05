@@ -53,8 +53,8 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, setTags }) => {
           onKeyDown={handleKeyDown}
           value={inputValue}
         />
-        <button className='w-8 h-8 flex items-center justify-center rounded border border-blue-700 hover:bg-blue-700' onClick={addNewTag}>
-          <MdAdd className='text-2xl text-blue-700 hover:text-white' />
+        <button className='w-8 h-8 flex items-center justify-center rounded border border-primary hover:bg-primary' onClick={addNewTag}>
+          <MdAdd className='text-2xl text-primary hover:text-white' />
         </button>
       </div>
     </div>

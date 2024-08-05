@@ -3,7 +3,6 @@ const connection = process.env.connection;
 const mongoose = require("mongoose");
 const logger = require('./logger');
 
-// Connect to MongoDB
 mongoose.connect(connection)
     .then(() => logger.info('Connected to MongoDB'))
     .catch((err) => logger.error('Failed to connect to MongoDB', err));

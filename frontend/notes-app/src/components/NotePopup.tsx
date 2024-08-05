@@ -104,7 +104,7 @@ const NotePopup: React.FC<NotePopupProps> = ({ noteData, type, onClose, getAllNo
         <TagsInput tags={tags} setTags={setTags} />
       </div>
       {error && <p className='text-red-500 text-xs pt-4'>{error}</p>}
-      <button className='w-full text-sm bg-primary text-white rounded my-1 hover:bg-blue-500 font-medium mt-5 p-3' onClick={handleAddNote}>
+      <button className='w-full text-sm bg-primary text-white rounded my-1 hover:bg-secondary font-medium mt-5 p-3' onClick={handleAddNote}>
         {type === 'edit' ? 'UPDATE' : "ADD"}
       </button>
     </div>

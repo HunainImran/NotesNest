@@ -38,6 +38,10 @@ function Copyright(props: any) {
 export default function SignInSide() {
 
   const navigate = useNavigate();
+  const handleSignUpClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); 
+    navigate('/signup');
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -180,7 +184,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="#" variant="body2" onClick={handleSignUpClick}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

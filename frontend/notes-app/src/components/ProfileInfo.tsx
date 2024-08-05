@@ -9,7 +9,6 @@ interface ProfileInfoProps {
 }
 
 const ProfileInfo: React.FC<ProfileInfoProps> = ({ onLogout , userInfo}) => {
-  console.log(userInfo);
   const initials = userInfo ? getInitials(userInfo.firstName + ' ' + userInfo.lastName) : 'NN';
   return (
     <div className='flex items-center gap-3'>
