@@ -6,31 +6,18 @@ import Modal from 'react-modal';
 import NotePopup from '../components/NotePopup';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
+import { UserInfo, Note } from '../utils/constants';
 
 
-interface Note {
-  _id: string;
-  title: string;
-  content: string;
-  createdOn: string;
-  tags: string[];
-  isPinned: boolean;
-}
 interface ModalState {
   isShown: boolean;
   type: "add" | "edit";
-  data: Note | null; // Adjusted to accept Note or null
+  data: Note | null; 
 }
 
 
 function Home() {
-  // Define the type for userInfo
-interface UserInfo {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  // Add other properties as needed
-}
+
   const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [openAddEditModal, setOpenAddEditModal] = useState<ModalState>({ isShown: false, type: "add", data: null });
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null); 
@@ -46,15 +33,12 @@ interface UserInfo {
       const response = await axiosInstance.get("/get-user");
       if (response.data) {
         setUserInfo(response.data);
-        console.log("USER INFO STATE : ", userInfo);
       }
     } catch (error: any) {
       if (error.response?.status === 401) {
         localStorage.clear();
         navigate('/login');
-      } else {
-        console.error("Error fetching user info:", error);
-      }
+      } 
     }
   };
 
@@ -66,7 +50,7 @@ interface UserInfo {
       }
     }
     catch(err: any){
-        console.log(err);
+        //Will add a toast message
     }
   }
 
@@ -74,14 +58,13 @@ interface UserInfo {
     const noteId = note._id;
     try{
       const response = await axiosInstance.delete('/delete-note/' + noteId);
-      console.log(response);
       if(response.data && response.data.message){
         getAllNotes();
       }
     }
     catch(err: any){
       if(err.response && err.response.data && err.response.data.message){
-          console.log(err);
+          //Will add a toast message
       }
     }
   }
@@ -98,12 +81,29 @@ interface UserInfo {
       }
     }
     catch(err:any){
-        console.log(err);
+        //Will add a toast message
     }
   }
   const handleClearSearch = () => {
     setIsSearch(false);
     getAllNotes();
+  }
+
+  const updateIsPinned = async (noteData : Note) => {
+    const noteId = noteData._id;
+    try{
+      const response = await axiosInstance.put('/update-note-pinned/' + noteId, {
+        isPinned : !noteData.isPinned,
+      });
+      if(response.data && response.data.existingNote){
+        getAllNotes();
+      }
+    }
+    catch(err: any){
+      if(err.response && err.response.data && err.response.data.message){
+          //Will add a toast message
+      }
+    }
   }
 
   useEffect(() => {
@@ -127,7 +127,7 @@ interface UserInfo {
               isPinned={item.isPinned}
               onEdit={() => handleEdit(item)}
               onDelete={() => deleteNotes(item)}
-              onPinNote={() => {}}
+              onPinNote={() => {updateIsPinned(item)}}
             />
           ))}
           

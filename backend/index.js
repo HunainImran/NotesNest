@@ -1,8 +1,8 @@
 require("dotenv").config();
-const config = require("./config.json");
+const connection = process.env.connection;
 const mongoose = require("mongoose");
 
-mongoose.connect(config.connection)
+mongoose.connect(connection)
 
 const user = require("./models/user-schema");
 const note = require("./models/note-schema");
@@ -219,6 +219,32 @@ app.get('/search-notes', authenticateToken, async (req, res) => {
     }
 });
 
+//Pin Note Api
+app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
+    const noteId = req.params.noteId;
+    const {  isPinned } = req.body;
+    const user = req.user; 
+
+
+    try {
+        const existingNote = await note.findOne({ _id: noteId, userId: user._id });
+        if (!existingNote) {
+            console.log("Note not found for user ID:", user._id);
+            return res.status(404).json({ error: true, message: "Note not found" });
+        }
+
+        existingNote.isPinned = isPinned; 
+
+        console.log("Updated note:", existingNote);
+
+        await existingNote.save();
+
+        return res.json({ error: false, existingNote, message: "Note updated successfully" });
+    } catch (err) {
+        console.error("Error updating note:", err);
+        return res.status(500).json({ error: true, message: "Internal server error" });
+    }
+});
 
 app.listen(8000);
 module.exports = app;

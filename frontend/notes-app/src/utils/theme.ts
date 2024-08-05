@@ -1,6 +1,6 @@
 // src/themes/theme.ts
 import { createTheme } from '@mui/material/styles';
-import { colors } from './colors';
+import { colors } from './constants';
 
 const customTheme = createTheme({
   typography: {

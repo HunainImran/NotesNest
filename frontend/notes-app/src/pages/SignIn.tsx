@@ -42,10 +42,6 @@ export default function SignInSide() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
     try{
       const response = await axiosInstance.post("/login", {
         email: data.get('email'),
@@ -58,7 +54,7 @@ export default function SignInSide() {
     }
     catch(error: any){
       if (error.response && error.response.data && error.response.data.message){
-        console.log(error)
+        //Will add a toast message
       }
     }
   };
